@@ -9,5 +9,7 @@ namespace PrivacyABAC.Functions
         string GetClassName();
 
         string ExecuteFunction(string functionName, params string[] parameters);
+
+        FunctionInfo[] GetRegisteredFunctions();
     }
 }

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26510.0
+VisualStudioVersion = 15.0.26606.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.DbInterfaces", "PrivacyABAC.DbInterfaces\PrivacyABAC.DbInterfaces.csproj", "{21B4ABCF-6172-45C9-AFE5-51C6CFCE1D1A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Functions", "PrivacyABAC.Functions\PrivacyABAC.Functions.csproj", "{112343C0-594B-4ABD-AB81-65E28FF2057D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Infrastructure", "PrivacyABAC.Core\PrivacyABAC.Infrastructure.csproj", "{5C08C91A-9D1D-4AE2-881F-2B5367C0BD0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.UnitTest", "PrivacyABAC.UnitTest\PrivacyABAC.UnitTest.csproj", "{A7FE5A82-0291-4D12-9590-67FB8057B74E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{5C08C91A-9D1D-4AE2-881F-2B5367C0BD0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C08C91A-9D1D-4AE2-881F-2B5367C0BD0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C08C91A-9D1D-4AE2-881F-2B5367C0BD0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7FE5A82-0291-4D12-9590-67FB8057B74E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7FE5A82-0291-4D12-9590-67FB8057B74E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7FE5A82-0291-4D12-9590-67FB8057B74E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7FE5A82-0291-4D12-9590-67FB8057B74E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

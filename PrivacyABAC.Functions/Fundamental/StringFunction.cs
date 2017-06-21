@@ -16,7 +16,7 @@ namespace PrivacyABAC.Functions.Fundamental
             else if (string.Equals(functionName, "EqualInsenitive"))
                 result = EqualInsenitive(parameters[0], parameters[1]);
 
-            if (result == null) throw new FunctionNotFoundException(string.Format(ErrorFunctionMessage.NotFound(), functionName + " function"));
+            if (result == null) throw new FunctionNotFoundException(string.Format(ErrorFunctionMessage.NotFound, functionName + " function"));
 
             return result.ToString();
         }
@@ -26,14 +26,21 @@ namespace PrivacyABAC.Functions.Fundamental
             return "String";
         }
 
-        [FunctionInfo("EqualInsenitive", 2)]
+        public FunctionInfo[] GetRegisteredFunctions()
+        {
+            return new FunctionInfo[]
+            {
+                new FunctionInfo("Equal", 2),
+                new FunctionInfo("EqualInsenitive", 2)
+            };
+        }
+
         public bool EqualInsenitive(string a, string b)
         {
             if (string.Equals(a, b, StringComparison.OrdinalIgnoreCase)) return true;
             else return false;
         }
-
-        [FunctionInfo("Equal", 2)]
+        
         public bool Equal(string a, string b)
         {
             if (string.Equals(a, b)) return true;

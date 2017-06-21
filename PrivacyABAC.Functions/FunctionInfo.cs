@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PrivacyABAC.Functions
 {
-    public class FunctionInfoAttribute : Attribute
+    public class FunctionInfo
     {
         public string Description { get; private set; }
 
@@ -14,7 +14,7 @@ namespace PrivacyABAC.Functions
 
         public string Name { get; private set; }
 
-        public FunctionInfoAttribute(string name, int numberParameters, string description, string example)
+        public FunctionInfo(string name, int numberParameters, string description, string example)
         {
             Name = name;
             NumberParameters = numberParameters;
@@ -22,7 +22,7 @@ namespace PrivacyABAC.Functions
             Example = example;
         }
 
-        public FunctionInfoAttribute(string name, int numberParameters)
+        public FunctionInfo(string name, int numberParameters)
         {
             Name = name;
             NumberParameters = numberParameters;
