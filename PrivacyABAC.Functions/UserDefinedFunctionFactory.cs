@@ -10,8 +10,8 @@ namespace PrivacyABAC.Functions
     {
         private UserDefinedFunctionFactory() { }
 
-        private SortedList<string, FunctionInfo> _sortedListFunctionInfo = new SortedList<string, FunctionInfo>();
-        private SortedList<string, IPluginFunction> _sortedListPluginFunction = new SortedList<string, IPluginFunction>();
+        private Dictionary<string, FunctionInfo> _sortedListFunctionInfo = new Dictionary<string, FunctionInfo>();
+        private Dictionary<string, IPluginFunction> _sortedListPluginFunction = new Dictionary<string, IPluginFunction>();
 
         private static UserDefinedFunctionFactory _instance;
 
