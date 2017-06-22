@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PrivacyABAC.Functions.Fundamental
 {
-    class DateTimeFunction : IPluginFunction
+    public class DateTimeFunction : IPluginFunction
     {
         public string ExecuteFunction(string functionName, params string[] parameters)
         {

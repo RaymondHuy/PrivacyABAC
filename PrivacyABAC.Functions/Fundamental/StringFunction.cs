@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PrivacyABAC.Functions.Fundamental
 {
-    class StringFunction : IPluginFunction
+    public class StringFunction : IPluginFunction
     {
         public string ExecuteFunction(string functionName, params string[] parameters)
         {
