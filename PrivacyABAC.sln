@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.DbInterfaces", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Functions", "PrivacyABAC.Functions\PrivacyABAC.Functions.csproj", "{112343C0-594B-4ABD-AB81-65E28FF2057D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Infrastructure", "PrivacyABAC.Core\PrivacyABAC.Infrastructure.csproj", "{5C08C91A-9D1D-4AE2-881F-2B5367C0BD0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Infrastructure", "PrivacyABAC.Infrastructure\PrivacyABAC.Infrastructure.csproj", "{5C08C91A-9D1D-4AE2-881F-2B5367C0BD0B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.UnitTest", "PrivacyABAC.UnitTest\PrivacyABAC.UnitTest.csproj", "{A7FE5A82-0291-4D12-9590-67FB8057B74E}"
 EndProject

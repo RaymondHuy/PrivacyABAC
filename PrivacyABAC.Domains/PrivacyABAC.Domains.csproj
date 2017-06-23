@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PrivacyABAC.Core\PrivacyABAC.Infrastructure.csproj" />
+    <ProjectReference Include="..\PrivacyABAC.Infrastructure\PrivacyABAC.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
