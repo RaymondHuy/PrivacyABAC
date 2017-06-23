@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.UnitTest", "Pri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Domains", "PrivacyABAC.Domains\PrivacyABAC.Domains.csproj", "{3FD40794-FF9E-4D52-9262-FC66DECC76D1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrivacyABAC.Core", "PrivacyABAC.Core\PrivacyABAC.Core.csproj", "{649392C2-254E-4089-B565-2BCDDB5345C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Asp2017", "PrivacyABAC.WebSPA\Asp2017.csproj", "{4471FD30-46A0-43F0-8950-284E3BD96513}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{3FD40794-FF9E-4D52-9262-FC66DECC76D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FD40794-FF9E-4D52-9262-FC66DECC76D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FD40794-FF9E-4D52-9262-FC66DECC76D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649392C2-254E-4089-B565-2BCDDB5345C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649392C2-254E-4089-B565-2BCDDB5345C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649392C2-254E-4089-B565-2BCDDB5345C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649392C2-254E-4089-B565-2BCDDB5345C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4471FD30-46A0-43F0-8950-284E3BD96513}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4471FD30-46A0-43F0-8950-284E3BD96513}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4471FD30-46A0-43F0-8950-284E3BD96513}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4471FD30-46A0-43F0-8950-284E3BD96513}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
