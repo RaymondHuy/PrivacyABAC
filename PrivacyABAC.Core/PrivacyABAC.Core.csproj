@@ -4,4 +4,14 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PrivacyABAC.DbInterfaces\PrivacyABAC.DbInterfaces.csproj" />
+    <ProjectReference Include="..\PrivacyABAC.Functions\PrivacyABAC.Functions.csproj" />
+    <ProjectReference Include="..\PrivacyABAC.Infrastructure\PrivacyABAC.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
