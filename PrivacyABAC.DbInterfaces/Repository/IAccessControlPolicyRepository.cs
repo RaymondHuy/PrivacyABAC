@@ -7,5 +7,10 @@ namespace PrivacyABAC.DbInterfaces.Repository
 {
     public interface IAccessControlPolicyRepository : IRepository<AccessControlPolicy>
     {
+
+        ICollection<AccessControlPolicy> Get(string collectionName, string action, bool? isAttributeResourceRequired);
+
+        string GetPolicyCombining(ICollection<AccessControlPolicy> policies);
+        
     }
 }

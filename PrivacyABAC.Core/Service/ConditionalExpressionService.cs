@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PrivacyABAC.Core.Expression
+namespace PrivacyABAC.Core.Service
 {
-    public class ConditionalExpression
+    public class ConditionalExpressionService
     {
         public bool Evaluate(Function function, JObject subject, JObject resource, JObject environment)
         {
