@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PrivacyABAC.Infrastructure.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PrivacyABAC.Domains.Common
 {
-    public class PhoneDomain : IPluginDomain
+    public class PhoneDomainPrivacy : IPluginDomain
     {
 
         public string GetName() => "Phone";
@@ -13,7 +14,12 @@ namespace PrivacyABAC.Domains.Common
 
         public string ExecuteFunction(string functionName, params string[] parameters)
         {
-            throw new NotImplementedException();
+            if (functionName.Equals("ShowFirstThreeNumber", StringComparison.OrdinalIgnoreCase))
+                return ShowFirstThreeNumber(parameters[0]);
+            else if (functionName.Equals("ShowLastThreeNumber", StringComparison.OrdinalIgnoreCase))
+                return ShowLastThreeNumber(parameters[0]);
+
+            throw new FunctionNotFoundException(string.Format("Can not find {0}", functionName));
         }
 
         public string ShowFirstThreeNumber(string s)
