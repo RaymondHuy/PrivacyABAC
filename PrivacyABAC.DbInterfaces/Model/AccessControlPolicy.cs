@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace PrivacyABAC.DbInterfaces.Model
 {
-    public class AccessControlPolicy
+    public class AccessControlPolicy : IEntityBase
     {
-        public string CollectionName { get; set; }
+        public string Id { get; set; }
 
-        public string PolicyId { get; set; }
+        public string CollectionName { get; set; }
 
         public string Description { get; set; }
 

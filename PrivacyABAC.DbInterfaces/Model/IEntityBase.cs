@@ -7,6 +7,6 @@ namespace PrivacyABAC.DbInterfaces.Model
 {
     public interface IEntityBase
     {
-        string ID { get; set; }
+        string Id { get; set; }
     }
 }

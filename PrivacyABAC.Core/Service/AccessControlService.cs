@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using PrivacyABAC.Core.Model;
 using PrivacyABAC.DbInterfaces.Model;
 using PrivacyABAC.DbInterfaces.Repository;
@@ -13,29 +14,32 @@ namespace PrivacyABAC.Core.Service
     {
         private readonly IAccessControlPolicyRepository _accessControlPolicyRepository;
         private readonly ConditionalExpressionService _expressionService;
+        private readonly ILogger<AccessControlService> _logger;
 
         public AccessControlService(
             IAccessControlPolicyRepository accessControlPolicyRepository,
-            ConditionalExpressionService expressionService)
+            ConditionalExpressionService expressionService,
+            ILogger<AccessControlService> logger)
         {
             _accessControlPolicyRepository = accessControlPolicyRepository;
             _expressionService = expressionService;
+            _logger = logger;
         }
 
-        ResponseContext ExecuteProcess(Subject subject, Resource resource, string action, EnvironmentObject environment)
+        AccessControlResponseContext ExecuteProcess(Subject subject, Resource resource, string action, EnvironmentObject environment)
         {
             environment.Data.AddAnnotation(action);
 
-            AccessControlEffect effect = CollectionAccessControlProcess(subject, resource, action, environment);
-            if (effect == AccessControlEffect.Deny)
-                return new ResponseContext(AccessControlEffect.Deny, null);
-            else if (effect == AccessControlEffect.Permit)
-                return new ResponseContext(AccessControlEffect.Permit, resource.Data);
+            AccessControlEffect collectionEffect = CollectionAccessControlProcess(subject, resource, action, environment);
+            if (collectionEffect == AccessControlEffect.Deny)
+                return new AccessControlResponseContext(AccessControlEffect.Deny, null);
+            else if (collectionEffect == AccessControlEffect.Permit)
+                return new AccessControlResponseContext(AccessControlEffect.Permit, resource.Data);
 
             var accessControlRecordPolicies = _accessControlPolicyRepository.Get(resource.Name, action, true);
 
             if (accessControlRecordPolicies.Count == 0)
-                return new ResponseContext(AccessControlEffect.Deny, null);
+                return new AccessControlResponseContext(AccessControlEffect.Deny, null);
 
             string policyCombining = _accessControlPolicyRepository.GetPolicyCombining(accessControlRecordPolicies);
 
@@ -60,9 +64,9 @@ namespace PrivacyABAC.Core.Service
                 }
             }
             if (_resource.Count == 0)
-                return new ResponseContext(AccessControlEffect.Deny, null);
+                return new AccessControlResponseContext(AccessControlEffect.Deny, null);
 
-            return new ResponseContext(AccessControlEffect.Permit, _resource);
+            return new AccessControlResponseContext(AccessControlEffect.Permit, _resource);
 
         }
 
@@ -130,28 +134,28 @@ namespace PrivacyABAC.Core.Service
             }
             foreach (var policy in targetPolicy)
             {
-                string policyEffect = String.Empty;
+                string effect = String.Empty;
 
                 foreach (var rule in policy.Rules)
                 {
                     bool isApplied = _expressionService.Evaluate(rule.Condition, subject.Data, resource, environment.Data);
-                    if (isApplied && rule.Effect.Equals("Permit") && policy.RuleCombining.Equals("permit-overrides"))
+                    if (isApplied && rule.Effect.Equals(RuleEffect.PERMIT) && policy.RuleCombining.Equals(AlgorithmCombining.PERMIT_OVERRIDES))
                     {
-                        policyEffect = "Permit";
+                        effect = RuleEffect.PERMIT;
                         break;
                     }
-                    if (isApplied && rule.Effect.Equals("Deny") && policy.RuleCombining.Equals("deny-overrides"))
+                    if (isApplied && rule.Effect.Equals(RuleEffect.DENY) && policy.RuleCombining.Equals(AlgorithmCombining.DENY_OVERRIDES))
                     {
-                        policyEffect = "Deny";
+                        effect = RuleEffect.DENY;
                         break;
                     }
                 }
-                if (policyEffect.Equals("Permit") && policyCombining.Equals("permit-overrides"))
+                if (effect.Equals(RuleEffect.PERMIT) && policyCombining.Equals(AlgorithmCombining.PERMIT_OVERRIDES))
                 {
                     result = resource;
                     break;
                 }
-                else if (policyEffect.Equals("Deny") && policyCombining.Equals("deny-overrides"))
+                else if (effect.Equals(RuleEffect.DENY) && policyCombining.Equals(AlgorithmCombining.DENY_OVERRIDES))
                 {
                     result = null;
                     break;

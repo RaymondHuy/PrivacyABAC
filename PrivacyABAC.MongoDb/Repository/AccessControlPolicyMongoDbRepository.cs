@@ -1,31 +1,48 @@
 ﻿using PrivacyABAC.DbInterfaces.Repository;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using PrivacyABAC.DbInterfaces.Model;
+using MongoDB.Driver;
 
 namespace PrivacyABAC.MongoDb.Repository
 {
-    public class AccessControlPolicyMongoDbRepository : IAccessControlPolicyRepository
+    public class AccessControlPolicyMongoDbRepository : 
+        MongoDbRepositoryBase<AccessControlPolicy>, IAccessControlPolicyRepository
     {
-        public void Create(AccessControlPolicy entity)
+        public AccessControlPolicyMongoDbRepository(MongoDbContextProvider mongoDbContextProvider)
+            :base(mongoDbContextProvider)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Delete(string id)
+        public ICollection<AccessControlPolicy> Get(string collectionName, string action, bool? isAttributeResourceRequired)
         {
-            throw new NotImplementedException();
+            var builder = Builders<AccessControlPolicy>.Filter;
+            var filter = builder.Eq("collection_name", collectionName)
+                       & builder.Eq("action", action);
+
+            if (isAttributeResourceRequired != null)
+                filter = filter & builder.Eq("is_attribute_resource_required", isAttributeResourceRequired);
+
+            var data = dbContext.GetCollection<AccessControlPolicy>("AccessControlPolicy")
+                                   .Find(filter)
+                                   .ToList();
+            return data;
         }
 
-        public AccessControlPolicy[] GetAll()
+        public string GetPolicyCombining(ICollection<AccessControlPolicy> policies)
         {
-            throw new NotImplementedException();
-        }
+            var builder = Builders<AccessControlPolicyCombining>.Filter;
+            var id = policies.ElementAt(0).Id;
+            var filter = builder.AnyEq("policies_id", id);
 
-        public void Update(AccessControlPolicy entity, string id)
-        {
-            throw new NotImplementedException();
+            var data = dbContext.GetCollection<AccessControlPolicyCombining>("AccessControlPolicyCombining")
+                                   .Find(filter)
+                                   .FirstOrDefault();
+
+            return data == null ? "permit-overrides" : data.Algorithm;
         }
     }
 }

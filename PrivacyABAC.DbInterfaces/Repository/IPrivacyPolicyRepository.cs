@@ -7,5 +7,6 @@ namespace PrivacyABAC.DbInterfaces.Repository
 {
     public interface IPrivacyPolicyRepository : IRepository<PrivacyPolicy>
     {
+        ICollection<PrivacyPolicy> GetPolicies(string collectionName, bool? isAttributeResourceRequired);
     }
 }

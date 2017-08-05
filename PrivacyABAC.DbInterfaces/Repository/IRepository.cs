@@ -1,16 +1,19 @@
-﻿using System;
+﻿using PrivacyABAC.DbInterfaces.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PrivacyABAC.DbInterfaces.Repository
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T> where T : IEntityBase
     {
-        T[] GetAll();
+        IEnumerable<T> GetAll();
 
-        void Create(T entity);
+        T GetById(string id);
 
-        void Update(T entity, string id);
+        void Add(T entity);
+
+        void Update(T entity);
 
         void Delete(string id);
     }

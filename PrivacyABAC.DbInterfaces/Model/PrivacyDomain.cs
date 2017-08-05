@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace PrivacyABAC.DbInterfaces.Model
 {
-    public class PrivacyDomain
+    public class PrivacyDomain : IEntityBase
     {
+        public string Id { get; set; }
 
         public string DomainName { get; set; }
 

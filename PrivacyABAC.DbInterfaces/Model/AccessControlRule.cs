@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PrivacyABAC.DbInterfaces.Model
 {
-    public class AccessControlRule
+    public class AccessControlRule : IEntityBase
     {
         public string Id { get; set; }
 

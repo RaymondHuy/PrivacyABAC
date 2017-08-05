@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using PrivacyABAC.DbInterfaces.Model;
 using PrivacyABAC.Functions;
 using PrivacyABAC.Infrastructure.Exceptions;
@@ -10,6 +11,13 @@ namespace PrivacyABAC.Core.Service
 {
     public class ConditionalExpressionService
     {
+        private readonly ILogger<ConditionalExpressionService> _logger;
+
+        public ConditionalExpressionService(ILogger<ConditionalExpressionService> logger)
+        {
+            _logger = logger;
+        }
+
         public bool Evaluate(Function function, JObject subject, JObject resource, JObject environment)
         {
             var parameters = new List<string>();

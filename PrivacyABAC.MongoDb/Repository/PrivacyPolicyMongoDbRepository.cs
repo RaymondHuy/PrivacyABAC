@@ -6,24 +6,15 @@ using PrivacyABAC.DbInterfaces.Model;
 
 namespace PrivacyABAC.MongoDb.Repository
 {
-    class PrivacyPolicyMongoDbRepository : IPrivacyPolicyRepository
+    public class PrivacyPolicyMongoDbRepository : MongoDbRepositoryBase<PrivacyPolicy>, IPrivacyPolicyRepository
     {
-        public void Create(PrivacyPolicy entity)
+        public PrivacyPolicyMongoDbRepository(MongoDbContextProvider mongoDbContextProvider)
+            : base(mongoDbContextProvider)
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Delete(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public PrivacyPolicy[] GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(PrivacyPolicy entity, string id)
+        public ICollection<PrivacyPolicy> GetPolicies(string collectionName, bool? isAttributeResourceRequired)
         {
             throw new NotImplementedException();
         }
