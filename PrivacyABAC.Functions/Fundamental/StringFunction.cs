@@ -21,10 +21,7 @@ namespace PrivacyABAC.Functions.Fundamental
             return result.ToString();
         }
 
-        public string GetClassName()
-        {
-            return "String";
-        }
+        public string GetClassName() => "String";
 
         public FunctionInfo[] GetRegisteredFunctions()
         {

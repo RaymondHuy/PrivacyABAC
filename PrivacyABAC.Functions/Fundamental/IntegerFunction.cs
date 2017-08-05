@@ -23,10 +23,7 @@ namespace PrivacyABAC.Functions.Fundamental
             return result.ToString();
         }
 
-        public string GetClassName()
-        {
-            return "Integer";
-        }
+        public string GetClassName() => "Integer";
 
         public FunctionInfo[] GetRegisteredFunctions()
         {
