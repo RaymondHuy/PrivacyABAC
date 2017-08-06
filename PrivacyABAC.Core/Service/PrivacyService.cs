@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using PrivacyABAC.Core.Extension;
 
 namespace PrivacyABAC.Core.Service
 {
@@ -182,7 +183,7 @@ namespace PrivacyABAC.Core.Service
 
             foreach (var fieldName in privacyField.Keys)
             {
-                if (fieldName == "_id") continue;
+                //if (fieldName == "_id") continue;
                 if (privacyField[fieldName] != "Optional")
                 {
                     string json = record.SelectToken(fieldName).ToString();
@@ -194,11 +195,11 @@ namespace PrivacyABAC.Core.Service
                             var arr = JArray.Parse(record.SelectToken(fieldName).ToString());
                             privacyRecord[fieldName] = RecursivePrivacyProcess(privacyField[fieldName], arr);
                         }
-                        else privacyRecord.AddNewFieldFromPath(fieldName, record, privacyField[fieldName]);
+                        else privacyRecord.AddNewField(fieldName, record, privacyField[fieldName]);
                     }
                     catch (Exception)
                     {
-                        privacyRecord.AddNewFieldFromPath(fieldName, record, privacyField[fieldName]);
+                        privacyRecord.AddNewField(fieldName, record, privacyField[fieldName]);
                     }
                 }
                 else privacyRecord[fieldName] = "";

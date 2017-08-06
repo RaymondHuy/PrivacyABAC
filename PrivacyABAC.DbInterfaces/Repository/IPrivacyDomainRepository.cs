@@ -7,5 +7,6 @@ namespace PrivacyABAC.DbInterfaces.Repository
 {
     public interface IPrivacyDomainRepository : IRepository<PrivacyDomain>
     {
+        string ComparePrivacyFunction(string firstPrivacyFunction, string secondPrivacyFunction);
     }
 }

@@ -7,5 +7,6 @@ namespace PrivacyABAC.DbInterfaces.Repository
 {
     public interface IPolicyCombiningRepository : IRepository<AccessControlPolicyCombining>
     {
+        string GetRuleCombining(ICollection<AccessControlPolicy> policies);
     }
 }

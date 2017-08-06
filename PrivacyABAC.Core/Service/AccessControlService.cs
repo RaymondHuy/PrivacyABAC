@@ -14,15 +14,18 @@ namespace PrivacyABAC.Core.Service
     {
         private readonly IAccessControlPolicyRepository _accessControlPolicyRepository;
         private readonly ConditionalExpressionService _expressionService;
+        private readonly IPolicyCombiningRepository _policyCombiningRepository;
         private readonly ILogger<AccessControlService> _logger;
 
         public AccessControlService(
             IAccessControlPolicyRepository accessControlPolicyRepository,
             ConditionalExpressionService expressionService,
+            IPolicyCombiningRepository policyCombiningRepository,
             ILogger<AccessControlService> logger)
         {
             _accessControlPolicyRepository = accessControlPolicyRepository;
             _expressionService = expressionService;
+            _policyCombiningRepository = policyCombiningRepository;
             _logger = logger;
         }
 
@@ -41,7 +44,7 @@ namespace PrivacyABAC.Core.Service
             if (accessControlRecordPolicies.Count == 0)
                 return new AccessControlResponseContext(AccessControlEffect.Deny, null);
 
-            string policyCombining = _accessControlPolicyRepository.GetPolicyCombining(accessControlRecordPolicies);
+            string policyCombining = _policyCombiningRepository.GetRuleCombining(accessControlRecordPolicies);
 
             ICollection<JObject> _resource = new List<JObject>();
             if (resource.Data.Length > 1000)
@@ -79,7 +82,7 @@ namespace PrivacyABAC.Core.Service
             if (collectionPolicies.Count == 0)
                 return AccessControlEffect.NotApplicable;
 
-            string policyCombining = _accessControlPolicyRepository.GetPolicyCombining(collectionPolicies);
+            string policyCombining = _policyCombiningRepository.GetRuleCombining(collectionPolicies);
 
             var targetPolicies = new List<AccessControlPolicy>();
             foreach (var policy in collectionPolicies)

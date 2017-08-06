@@ -119,5 +119,15 @@ namespace PrivacyABAC.Core.Service
             string result = factory.ExecuteFunction(function.FunctionName, parameters.ToArray());
             return result;
         }
+
+        public bool IsAccessControlPolicyRelateToContext(AccessControlPolicy policy, JObject user, JObject resource, JObject environment)
+        {
+            return true;
+        }
+
+        public bool IsPrivacyPolicyRelateToContext(PrivacyPolicy policy, JObject user, JObject resource, JObject environment)
+        {
+            return false;
+        }
     }
 }

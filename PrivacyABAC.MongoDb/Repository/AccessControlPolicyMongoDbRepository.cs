@@ -14,7 +14,6 @@ namespace PrivacyABAC.MongoDb.Repository
         public AccessControlPolicyMongoDbRepository(MongoDbContextProvider mongoDbContextProvider)
             :base(mongoDbContextProvider)
         {
-
         }
 
         public ICollection<AccessControlPolicy> Get(string collectionName, string action, bool? isAttributeResourceRequired)
@@ -30,19 +29,6 @@ namespace PrivacyABAC.MongoDb.Repository
                                    .Find(filter)
                                    .ToList();
             return data;
-        }
-
-        public string GetPolicyCombining(ICollection<AccessControlPolicy> policies)
-        {
-            var builder = Builders<AccessControlPolicyCombining>.Filter;
-            var id = policies.ElementAt(0).Id;
-            var filter = builder.AnyEq("policies_id", id);
-
-            var data = dbContext.GetCollection<AccessControlPolicyCombining>("AccessControlPolicyCombining")
-                                   .Find(filter)
-                                   .FirstOrDefault();
-
-            return data == null ? "permit-overrides" : data.Algorithm;
         }
     }
 }
