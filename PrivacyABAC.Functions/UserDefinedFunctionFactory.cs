@@ -50,5 +50,10 @@ namespace PrivacyABAC.Functions
                 return plugin.ExecuteFunction(functionName, parameters);
             else throw new FunctionNotFoundException(string.Format(ErrorFunctionMessage.NotFound, className));
         }
+
+        public FunctionInfo GetFunction(string keyword)
+        {
+            return _sortedListFunctionInfo[keyword];
+        }
     }
 }

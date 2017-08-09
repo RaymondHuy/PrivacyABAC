@@ -1,19 +1,18 @@
-﻿using System;
+using System;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Antiforgery;
 
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-using Microsoft.AspNetCore.NodeServices;
 using AspCoreServer.Data;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 
 namespace AspCoreServer
 {
@@ -48,7 +47,7 @@ namespace AspCoreServer
     {
       // Add framework services.
       services.AddMvc();
-      services.AddNodeServices();
+      //services.AddNodeServices();
 
       var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "spa.db" };
       var connectionString = connectionStringBuilder.ToString();
@@ -76,7 +75,8 @@ namespace AspCoreServer
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
-        app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+        app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+        {
           HotModuleReplacement = true
         });
 
@@ -111,9 +111,9 @@ namespace AspCoreServer
             "sitemap.xml",
             new { controller = "Home", action = "SitemapXml" });
 
-            routes.MapSpaFallbackRoute(
-              name: "spa-fallback",
-              defaults: new { controller = "Home", action = "Index" });
+          routes.MapSpaFallbackRoute(
+            name: "spa-fallback",
+            defaults: new { controller = "Home", action = "Index" });
 
         });
         app.UseExceptionHandler("/Home/Error");

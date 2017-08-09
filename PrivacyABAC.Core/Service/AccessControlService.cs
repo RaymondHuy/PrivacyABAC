@@ -29,7 +29,7 @@ namespace PrivacyABAC.Core.Service
             _logger = logger;
         }
 
-        AccessControlResponseContext ExecuteProcess(Subject subject, Resource resource, string action, EnvironmentObject environment)
+        public AccessControlResponseContext ExecuteProcess(Subject subject, Resource resource, string action, EnvironmentObject environment)
         {
             environment.Data.AddAnnotation(action);
 
@@ -163,6 +163,18 @@ namespace PrivacyABAC.Core.Service
                     result = null;
                     break;
                 }
+            }
+            return result;
+        }
+
+        public ICollection<AccessControlPolicy> Review(JObject user, JObject resource, JObject environment)
+        {
+            var policies = _accessControlPolicyRepository.GetAll();
+            var result = new List<AccessControlPolicy>();
+            foreach (var policy in policies)
+            {
+                if (_expressionService.IsAccessControlPolicyRelateToContext(policy, user, resource, environment))
+                    result.Add(policy);
             }
             return result;
         }

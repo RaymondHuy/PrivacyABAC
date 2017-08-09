@@ -1,10 +1,13 @@
-﻿import { NgModule, Inject } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
-import { Ng2BootstrapModule } from 'ngx-bootstrap';
+import {
+    ButtonModule, GrowlModule, DropdownModule, AutoCompleteModule, InputTextModule, DataTableModule,
+    SharedModule, InputTextareaModule, MessagesModule, PanelModule, AccordionModule, FieldsetModule, ConfirmDialogModule
+} from 'primeng/primeng';
 
 // i18n support
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -15,10 +18,14 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './containers/home/home.component';
 import { UsersComponent } from './containers/users/users.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
-import { CounterComponent } from './containers/counter/counter.component';
-import { ChatComponent } from './containers/chat/chat.component';
+import { AccessControlPolicyFormCreateComponent } from './containers/access-control-policy/access_control_form_create.component';
+import { AccessControlDetailComponent } from './containers/access-control-policy/access_control_detail.component';
+import { PrivacyDomainFormCreateComponent } from './containers/privacy-policy/privacy_domain_form_create.component';
+import { PrivacyPolicyDetailComponent } from './containers/privacy-policy/privacy_policy_detail.component';
+import { PrivacyPolicyFormCreateComponent } from './containers/privacy-policy/privacy_policy_form_create.component';
+import { SubPrivacyPolicyFormCreateComponent } from './containers/privacy-policy/sub_privacy_policy_form_create.component';
+
 import { NotFoundComponent } from './containers/not-found/not-found.component';
-import { NgxBootstrapComponent } from './containers/ngx-bootstrap-demo/ngx-bootstrap.component';
 
 import { LinkService } from './shared/link.service';
 import { UserService } from './shared/user.service';
@@ -39,20 +46,28 @@ export function createTranslateLoader(http: Http, baseHref) {
     declarations: [
         AppComponent,
         NavMenuComponent,
-        CounterComponent,
         UsersComponent,
         UserDetailComponent,
         HomeComponent,
-        ChatComponent,
-        NotFoundComponent,
-        NgxBootstrapComponent
+        AccessControlPolicyFormCreateComponent,
+        AccessControlDetailComponent,
+        PrivacyDomainFormCreateComponent,
+        PrivacyPolicyDetailComponent,
+        PrivacyPolicyFormCreateComponent,
+        SubPrivacyPolicyFormCreateComponent,
+        NotFoundComponent
     ],
     imports: [
         CommonModule,
         HttpModule,
         FormsModule,
-        Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
 
+        ButtonModule,
+        GrowlModule,
+        DropdownModule,
+        AutoCompleteModule, InputTextareaModule, MessagesModule, AccordionModule,
+        InputTextModule, DataTableModule, SharedModule, PanelModule, FieldsetModule, ConfirmDialogModule,
+          
         TransferHttpModule, // Our Http TransferData method
 
         // i18n support
@@ -72,81 +87,31 @@ export function createTranslateLoader(http: Http, baseHref) {
                 pathMatch: 'full'
             },
             {
-                path: 'home', component: HomeComponent,
-
-                // *** SEO Magic ***
-                // We're using "data" in our Routes to pass in our <title> <meta> <link> tag information
-                // Note: This is only happening for ROOT level Routes, you'd have to add some additional logic if you wanted this for Child level routing
-                // When you change Routes it will automatically append these to your document for you on the Server-side
-                //  - check out app.component.ts to see how it's doing this
-                data: {
-                    title: 'Homepage',
-                    meta: [{ name: 'description', content: 'This is an example Description Meta tag!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/blah/nice' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/' }
-                    ]
-                }
+                path: 'home', component: HomeComponent
             },
             {
-                path: 'counter', component: CounterComponent,
-                data: {
-                    title: 'Counter',
-                    meta: [{ name: 'description', content: 'This is an Counter page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/counter/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/counter' }
-                    ]
-                }
+                path: 'users', component: UsersComponent
             },
             {
-                path: 'users', component: UsersComponent,
-                data: {
-                    title: 'Users REST example',
-                    meta: [{ name: 'description', content: 'This is User REST API example page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/users' }
-                    ]
-                }
+                path: 'access-control-policy', component: AccessControlPolicyFormCreateComponent
             },
             {
-                path: 'chat', component: ChatComponent,
-                // Wait until the resolve is finished before loading the Route
-                resolve: { connection: ConnectionResolver },
-                data: {
-                    title: 'SignalR chat example',
-                    meta: [{ name: 'description', content: 'This is an Chat page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/chat' }
-                    ]
-                }
+                path: 'access-control-detail', component: AccessControlDetailComponent
             },
             {
-                path: 'ngx-bootstrap', component: NgxBootstrapComponent,
-                data: {
-                    title: 'Ngx-bootstrap demo!!',
-                    meta: [{ name: 'description', content: 'This is an Demo Bootstrap page Description!' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/bootstrap/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/bootstrap-demo' }
-                    ]
-                }
+                path: 'privacy-domain', component: PrivacyDomainFormCreateComponent
             },
-          
-            { path: 'lazy', loadChildren: './containers/+lazy/lazy.module#LazyModule'},
-          
             {
-                path: '**', component: NotFoundComponent,
-                data: {
-                    title: '404 - Not found',
-                    meta: [{ name: 'description', content: '404 - Error' }],
-                    links: [
-                        { rel: 'canonical', href: 'http://blogs.example.com/bootstrap/something' },
-                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/bootstrap-demo' }
-                    ]
-                }
+                path: 'privacy-domain-detail', component: PrivacyPolicyDetailComponent
+            },
+            {
+                path: 'privacy-policy', component: PrivacyPolicyFormCreateComponent
+            },
+            {
+                path: 'sub-privacy-policy', component: SubPrivacyPolicyFormCreateComponent
+            },
+            {
+                path: '**', component: NotFoundComponent
             }
         ])
     ],

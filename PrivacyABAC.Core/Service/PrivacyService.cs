@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using PrivacyABAC.Core.Extension;
+using PrivacyABAC.Core.Model;
 
 namespace PrivacyABAC.Core.Service
 {
@@ -17,11 +18,6 @@ namespace PrivacyABAC.Core.Service
         private readonly IPrivacyDomainRepository _privacyDomainRepository;
         private readonly IPrivacyPolicyRepository _privacyPolicyRepository;
         private readonly ILogger<PrivacyService> _logger;
-
-        private JObject _user;
-        private JObject _environment;
-        private string _collectionName;
-        private string _action;
 
         private IDictionary<string, string> _collectionPrivacyRules;
 
@@ -37,26 +33,21 @@ namespace PrivacyABAC.Core.Service
             _logger = logger;
         }
 
-        ResponseContext ExecuteProcess(JObject user, JObject[] resource, string action, string collectionName, JObject environment)
+        public ResponseContext ExecuteProcess(Subject subject, Resource resource, string action, EnvironmentObject environment)
         {
-            _user = user;
-            _collectionName = collectionName;
-            _action = action;
-            _environment = environment;
+            environment.Data.AddAnnotation(action);
 
-            environment.AddAnnotation(action);
-
-            _collectionPrivacyRules = GetFieldCollectionRules();
+            _collectionPrivacyRules = GetFieldCollectionRules(subject, resource, action, environment);
             var privacyRecords = new JArray();
             int count = 0;
-            if (resource.Length > 1000)
+            if (resource.Data.Length > 1000)
             {
-                Parallel.ForEach(resource, record =>
+                Parallel.ForEach(resource.Data, record =>
                 {
-                    var privacyFields = GetPrivacyRecordField(record);
+                    var privacyFields = GetPrivacyRecordField(subject, record, resource.Name, environment);
                     if (privacyFields.Count > 0)
                     {
-                        var privacyRecord = PrivacyProcessing(record, privacyFields);
+                        var privacyRecord = PrivacyProcessing(record, privacyFields, subject, environment);
                         lock (privacyRecords)
                             privacyRecords.Add(privacyRecord);
                         ++count;
@@ -65,12 +56,12 @@ namespace PrivacyABAC.Core.Service
             }
             else
             {
-                foreach (var record in resource)
+                foreach (var record in resource.Data)
                 {
-                    var privacyFields = GetPrivacyRecordField(record);
+                    var privacyFields = GetPrivacyRecordField(subject, record, resource.Name, environment);
                     if (privacyFields.Count > 0)
                     {
-                        var privacyRecord = PrivacyProcessing(record, privacyFields);
+                        var privacyRecord = PrivacyProcessing(record, privacyFields, subject, environment);
                         privacyRecords.Add(privacyRecord);
                         ++count;
                     }
@@ -82,7 +73,7 @@ namespace PrivacyABAC.Core.Service
             return new ResponseContext(AccessControlEffect.Permit, privacyRecords);
         }
 
-        ICollection<PrivacyPolicy> Review(JObject user, JObject resource, JObject environment)
+        public ICollection<PrivacyPolicy> Review(JObject user, JObject resource, JObject environment)
         {
             var policies = _privacyPolicyRepository.GetAll();
             var result = new List<PrivacyPolicy>();
@@ -94,13 +85,13 @@ namespace PrivacyABAC.Core.Service
             return result;
         }
 
-        private IDictionary<string, string> GetFieldCollectionRules()
+        private IDictionary<string, string> GetFieldCollectionRules(Subject subject, Resource resource, string action, EnvironmentObject environment)
         {
-            var policies = _privacyPolicyRepository.GetPolicies(_collectionName, false);
+            var policies = _privacyPolicyRepository.GetPolicies(resource.Name, false);
             var targetPolicies = new List<PrivacyPolicy>();
             foreach (var policy in policies)
             {
-                bool isTarget = _expressionService.Evaluate(policy.Target, _user, null, _environment);
+                bool isTarget = _expressionService.Evaluate(policy.Target, subject.Data, null, environment.Data);
                 if (isTarget)
                     targetPolicies.Add(policy);
             }
@@ -109,7 +100,7 @@ namespace PrivacyABAC.Core.Service
             {
                 foreach (var collectionField in policy.Rules)
                 {
-                    bool isApplied = _expressionService.Evaluate(collectionField.Condition, _user, null, _environment);
+                    bool isApplied = _expressionService.Evaluate(collectionField.Condition, subject.Data, null, environment.Data);
                     if (isApplied)
                     {
                         InsertPrivacyRule(fieldCollectionRules, collectionField.FieldEffects);
@@ -118,7 +109,6 @@ namespace PrivacyABAC.Core.Service
             }
             return fieldCollectionRules;
         }
-
 
         private void InsertPrivacyRule(IDictionary<string, string> privacyRules, ICollection<FieldEffect> bonusFields)
         {
@@ -151,13 +141,13 @@ namespace PrivacyABAC.Core.Service
             }
         }
 
-        private IDictionary<string, string> GetPrivacyRecordField(JObject record)
+        private IDictionary<string, string> GetPrivacyRecordField(Subject user, JObject record, string collectionName, EnvironmentObject environment)
         {
-            var policies = _privacyPolicyRepository.GetPolicies(_collectionName, true);
+            var policies = _privacyPolicyRepository.GetPolicies(collectionName, true);
             var targetPolicies = new List<PrivacyPolicy>();
             foreach (var policy in policies)
             {
-                bool isTarget = _expressionService.Evaluate(policy.Target, _user, record, _environment);
+                bool isTarget = _expressionService.Evaluate(policy.Target, user.Data, record, environment.Data);
                 if (isTarget)
                     targetPolicies.Add(policy);
             }
@@ -167,7 +157,7 @@ namespace PrivacyABAC.Core.Service
             {
                 foreach (var rule in policy.Rules)
                 {
-                    bool isRuleApplied = _expressionService.Evaluate(rule.Condition, _user, record, _environment);
+                    bool isRuleApplied = _expressionService.Evaluate(rule.Condition, user.Data, record, environment.Data);
                     if (isRuleApplied)
                     {
                         CombinePrivacyFields(recordPrivacyRules, rule.FieldEffects);
@@ -177,7 +167,7 @@ namespace PrivacyABAC.Core.Service
             return recordPrivacyRules;
         }
 
-        private JObject PrivacyProcessing(JObject record, IDictionary<string, string> privacyField)
+        private JObject PrivacyProcessing(JObject record, IDictionary<string, string> privacyField, Subject subject, EnvironmentObject environment)
         {
             var privacyRecord = new JObject();
 
@@ -193,7 +183,7 @@ namespace PrivacyABAC.Core.Service
                         if (token is JArray)
                         {
                             var arr = JArray.Parse(record.SelectToken(fieldName).ToString());
-                            privacyRecord[fieldName] = RecursivePrivacyProcess(privacyField[fieldName], arr);
+                            privacyRecord[fieldName] = RecursivePrivacyProcess(privacyField[fieldName], arr, subject, environment);
                         }
                         else privacyRecord.AddNewField(fieldName, record, privacyField[fieldName]);
                     }
@@ -207,7 +197,7 @@ namespace PrivacyABAC.Core.Service
             return privacyRecord;
         }
 
-        private JArray RecursivePrivacyProcess(string policyName, JArray nestedArrayResource)
+        private JArray RecursivePrivacyProcess(string policyName, JArray nestedArrayResource, Subject subject, EnvironmentObject environment)
         {
             var policyID = policyName.Split('.')[1];
             var policy = _privacyPolicyRepository.GetById(policyID);
@@ -218,7 +208,7 @@ namespace PrivacyABAC.Core.Service
                 var fieldCollectionRules = new Dictionary<string, string>();
                 foreach (var rule in policy.Rules)
                 {
-                    bool isRuleApplied = _expressionService.Evaluate(rule.Condition, _user, record, _environment);
+                    bool isRuleApplied = _expressionService.Evaluate(rule.Condition, subject.Data, record, environment.Data);
                     if (isRuleApplied)
                     {
                         foreach (var fieldEffect in rule.FieldEffects)
@@ -229,7 +219,7 @@ namespace PrivacyABAC.Core.Service
                         }
                     }
                 }
-                result.Add(PrivacyProcessing(record, fieldCollectionRules));
+                result.Add(PrivacyProcessing(record, fieldCollectionRules, subject, environment));
             }
             return result;
         }
