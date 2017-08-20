@@ -1,0 +1,101 @@
+﻿<div class="col-lg-12">
+    <p-growl [value]="msgs"></p-growl>
+</div>
+
+<div class="row">
+    <div class="col-lg-12"><h3 style="color: blue">Subject Selection</h3></div>
+
+    <div class="col-lg-12">
+        <p-dataTable [value]="users" selectionMode="single" [(selection)]="selected_user"
+                     [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[10,20,50]" [rows]="6">
+            <p-column *ngFor="let col of user_property_names" field="{{col}}" header="{{col}}"
+                      [filter]="true" filterMatchMode="contains"></p-column>
+            <!--<p-footer><div style="text-align: left">Selected User: {{json_helper.stringify(selected_user)}}</div></p-footer>-->
+        </p-dataTable>
+    </div>
+
+    <div class="col-lg-12"><h3 style="color:#f0ad4e">Resource Condition</h3></div>
+
+    <div class="col-lg-12">
+        <div class="col-xs-12 form-group">
+            <label>Collection Name :</label>
+            <p-dropdown [options]="collection_names" [(ngModel)]="collection_selected_name" 
+                        [style]="{'width':'120px'}" (onChange)="onSelectCollectionName($event.value)"></p-dropdown>
+        </div>
+        <!--<div class="col-xs-4 form-group">
+            <label style="padding-right:13px">Resource Field: </label>
+            <p-dropdown [options]="resource_fields" [(ngModel)]="resource_selected_field" [style]="{'width':'120px'}"></p-dropdown>
+        </div>
+        <div class="col-xs-4 form-group">
+            <label>Operator :</label>
+            <p-dropdown [options]="resource_operators" [(ngModel)]="resource_selected_operator"></p-dropdown>
+        </div>
+        <div class="col-xs-4 form-group">
+            <label>Value :</label>
+            <input id="in" type="text" size="25" pInputText [(ngModel)]="resource_values" />
+        </div>-->
+    </div>
+    <!--<div class="col-lg-12" style="padding-bottom: 10px">
+        <button class="ui-button-warning" pButton type="button" label="Add" (click)="add_condition()"></button>
+        <button class="ui-button-warning" pButton type="button" label="Clear" (click)="clear_condition()"></button>
+    </div>
+
+    <div class="col-lg-12">
+        <textarea style="border-color: black" rows="2" cols="140" pInputTextarea
+                  [(ngModel)]="condition_result" [disabled]="true"></textarea>
+    </div>
+    <div class="col-lg-12">
+        <button class="ui-button-warning" pButton type="button" label="AND" (click)="and_click()"></button>
+        <button class="ui-button-warning" pButton type="button" label="OR" (click)="or_click()"></button>
+        <button class="ui-button-warning" pButton type="button" label="NOT" (click)="not_click()"></button>
+        <button class="ui-button-warning" pButton type="button" label="(" (click)="open_bracket_click()"></button>
+        <button class="ui-button-warning" pButton type="button" label=")" (click)="close_bracket_click()"></button>
+    </div>-->
+
+    <div class="col-lg-12"><h3 style="color:#5cb85c">Environment Condition</h3></div>
+
+    <div class="col-xs-12">
+        <div class="col-xs-4 form-group">
+            <label>Field :</label>
+            <p-autoComplete [(ngModel)]="environment_field" [suggestions]="environment_filtered_field" (completeMethod)="filter_environment_field($event)"
+                            [minLength]="1" >
+            </p-autoComplete>
+            <!--<input id="in" type="text" size="25" pInputText [(ngModel)]="environment_field" />-->
+        </div>
+        <div class="col-xs-4 form-group">
+            <label>Value :</label>
+            <input id="in" type="text" size="25" pInputText [(ngModel)]="environment_value" />
+        </div>
+    </div>
+
+    <div class="col-xs-12" style="padding-bottom: 10px" >
+        <button class="ui-button-success" pButton type="button" 
+                label="Add" (click)="add_environment_field()"></button>
+        <button class="ui-button-success" pButton type="button"
+                 label="Clear" (click)="clear_environment()"></button>
+    </div>
+
+    <div class="col-lg-12">
+        <textarea style="border-color: black" rows="2" cols="140" pInputTextarea class="ui-inputtextarea"
+                  [(ngModel)]="environment_object" [disabled]="true"></textarea>
+    </div>
+
+    <div class="col-lg-12 text-center">
+        <button class="btn btn-primary btn-lg" type="button" style="height:90%" (click)="submit()">Submit</button>
+    </div>
+
+    <div class="col-lg-12" *ngIf="result.length > 0" style="margin-top:20px">
+        <table class="table table-bordered table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th *ngFor="let col of result_property_names">{{col}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of result">
+                    <td *ngFor="let idx of result_property_names">{{json_helper.stringify(row[idx])}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

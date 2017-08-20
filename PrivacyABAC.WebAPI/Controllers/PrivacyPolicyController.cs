@@ -13,9 +13,11 @@ using PrivacyABAC.Core.Service;
 using PrivacyABAC.DbInterfaces.Repository;
 using PrivacyABAC.DbInterfaces.Model;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Cors;
 
 namespace PrivacyABAC.WebAPI.Controllers
 {
+    [EnableCors("CorsPolicy")]
     public class PrivacyPolicyController : Controller
     {
         private readonly SecurityService _securityService;
@@ -51,7 +53,8 @@ namespace PrivacyABAC.WebAPI.Controllers
         [Route("api/Privacy/Check")]
         public string Check([FromBody]PrivacyCheckingCommand command)
         {
-            var subject = _subjectRepository.GetUniqueUser("id", command.UserID);
+            _logger.LogInformation(DateTime.Now.Millisecond.ToString());
+            var subject = _subjectRepository.GetUniqueUser("_id", command.UserID);
             var environment = string.IsNullOrEmpty(command.Environment) || command.Environment == "{}" ? null : JObject.Parse(command.Environment);
             var resource = _resourceRepository.GetCollectionDataWithCustomFilter(command.ResourceName, null);
             var action = command.Action;
@@ -60,6 +63,7 @@ namespace PrivacyABAC.WebAPI.Controllers
             //    return "Deny";
             //if (result.Effect == EffectResult.NotApplicable)
             //    return "Not Applicable";
+            _logger.LogInformation(DateTime.Now.Millisecond.ToString());
             return result.Data == null ? "" : result.Data.ToString();
         }
 

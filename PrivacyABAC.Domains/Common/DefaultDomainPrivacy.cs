@@ -8,7 +8,7 @@ namespace PrivacyABAC.Domains.Common
     public class DefaultDomainPrivacy : IPluginDomain
     {
 
-        public string GetName() => "Default";
+        public string GetName() => "DefaultDomainPrivacy";
 
         public string[] GetRegisteredFunctions() => new string[] { "Show", "Hide" };
 

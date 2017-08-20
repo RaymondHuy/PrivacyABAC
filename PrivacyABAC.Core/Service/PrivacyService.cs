@@ -173,7 +173,7 @@ namespace PrivacyABAC.Core.Service
 
             foreach (var fieldName in privacyField.Keys)
             {
-                //if (fieldName == "_id") continue;
+                if (fieldName == "_id") continue;
                 if (privacyField[fieldName] != "Optional")
                 {
                     string json = record.SelectToken(fieldName).ToString();

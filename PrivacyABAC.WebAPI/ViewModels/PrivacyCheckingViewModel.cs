@@ -1,4 +1,4 @@
-﻿using PrivacyABAC.Core.JsonAC;
+﻿using PrivacyABAC.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ namespace PrivacyABAC.WebAPI.ViewModel
 {
     public class PrivacyCheckingViewModel
     {
-        public EffectResult Effect { get; set; }
+        public AccessControlEffect Effect { get; set; }
 
         public string Data { get; set; }
     }

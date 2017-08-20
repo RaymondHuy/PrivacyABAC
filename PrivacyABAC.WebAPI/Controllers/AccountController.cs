@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using PrivacyABAC.DbInterfaces.Repository;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PrivacyABAC.WebAPI.Controllers
 {
-    
+    [EnableCors("CorsPolicy")]
     public class AccountController : Controller
     {
         private readonly ISubjectRepository _subjectRepository;

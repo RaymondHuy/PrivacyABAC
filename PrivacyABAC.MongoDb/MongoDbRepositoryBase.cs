@@ -15,10 +15,10 @@ namespace PrivacyABAC.MongoDb
         {
             if (dbContext == null)
             {
-                Check.NotEmpty(mongoDbContextProvider.DatabaseName, "MongoDb DatabaseName");
+                Check.NotEmpty(mongoDbContextProvider.PolicyDatabaseName, "MongoDb PolicyDatabaseName");
 
                 var client = new MongoClient(mongoDbContextProvider.ConnectionString);
-                dbContext = client.GetDatabase(mongoDbContextProvider.DatabaseName);
+                dbContext = client.GetDatabase(mongoDbContextProvider.PolicyDatabaseName);
             }
         }
 

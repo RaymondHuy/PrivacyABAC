@@ -7,11 +7,13 @@ using PrivacyABAC.WebAPI.Commands;
 using PrivacyABAC.DbInterfaces.Repository;
 using PrivacyABAC.Domains.Common;
 using PrivacyABAC.DbInterfaces.Model;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PrivacyABAC.WebAPI.Controllers
 {
+    [EnableCors("CorsPolicy")]
     public class PrivacyDomainController : Controller
     {
         private readonly IPrivacyDomainRepository _privacyDomainRepository;

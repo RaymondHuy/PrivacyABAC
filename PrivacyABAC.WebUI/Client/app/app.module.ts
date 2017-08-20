@@ -24,6 +24,7 @@ import { PrivacyDomainFormCreateComponent } from './containers/privacy-policy/pr
 import { PrivacyPolicyDetailComponent } from './containers/privacy-policy/privacy_policy_detail.component';
 import { PrivacyPolicyFormCreateComponent } from './containers/privacy-policy/privacy_policy_form_create.component';
 import { SubPrivacyPolicyFormCreateComponent } from './containers/privacy-policy/sub_privacy_policy_form_create.component';
+import { PrivacyCheckingComponent } from './containers/privacy-checking/privacy_checking.component';
 
 import { NotFoundComponent } from './containers/not-found/not-found.component';
 
@@ -55,6 +56,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         PrivacyPolicyDetailComponent,
         PrivacyPolicyFormCreateComponent,
         SubPrivacyPolicyFormCreateComponent,
+        PrivacyCheckingComponent,
         NotFoundComponent
     ],
     imports: [
@@ -89,27 +91,15 @@ export function createTranslateLoader(http: Http, baseHref) {
             {
                 path: 'home', component: HomeComponent
             },
-            {
-                path: 'users', component: UsersComponent
-            },
-            {
-                path: 'access-control-policy', component: AccessControlPolicyFormCreateComponent
-            },
-            {
-                path: 'access-control-detail', component: AccessControlDetailComponent
-            },
-            {
-                path: 'privacy-domain', component: PrivacyDomainFormCreateComponent
-            },
-            {
-                path: 'privacy-domain-detail', component: PrivacyPolicyDetailComponent
-            },
-            {
-                path: 'privacy-policy', component: PrivacyPolicyFormCreateComponent
-            },
-            {
-                path: 'sub-privacy-policy', component: SubPrivacyPolicyFormCreateComponent
-            },
+            { path: 'privacy_checking', component: PrivacyCheckingComponent },
+            //{ path: 'policy_review', component: PolicyReviewComponent },
+            { path: 'access_control_policy', component: AccessControlPolicyFormCreateComponent },
+            { path: 'access_control_detail/:id', component: AccessControlDetailComponent },
+            { path: 'privacy_policy', component: PrivacyPolicyFormCreateComponent },
+            { path: 'privacy_policy_detail/:id', component: PrivacyPolicyDetailComponent },
+            { path: 'sub_privacy_policy', component: SubPrivacyPolicyFormCreateComponent },
+            { path: 'privacy_domain', component: PrivacyDomainFormCreateComponent },
+            //{ path: 'policy_management', component: PolicyManagementComponent },
             {
                 path: '**', component: NotFoundComponent
             }

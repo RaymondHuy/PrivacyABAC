@@ -10,5 +10,11 @@ namespace PrivacyABAC.DbInterfaces.Repository
         JObject[] GetCollectionDataWithCustomFilter(string collectionName, dynamic filter);
 
         ICollection<string> GetArrayFieldName();
+
+        string GetJsonStructureOfCollection(string collectionName);
+
+        string GetJsonStructureOfEmbeddedArray(string fieldName);
+
+        IEnumerable<string> GetAllCollectionNames();
     }
 }

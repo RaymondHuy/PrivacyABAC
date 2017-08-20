@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Reflection;
 using PrivacyABAC.Infrastructure.Exceptions;
+using PrivacyABAC.Functions.Fundamental;
 
 namespace PrivacyABAC.Functions
 {
@@ -54,6 +55,21 @@ namespace PrivacyABAC.Functions
         public FunctionInfo GetFunction(string keyword)
         {
             return _sortedListFunctionInfo[keyword];
+        }
+
+        public IEnumerable<string> GetAllFunctionNames()
+        {
+            return _sortedListFunctionInfo.Keys;
+        }
+
+        public void RegisterDefaultFunctions()
+        {
+            RegisterFunction(new BooleanFunction());
+            RegisterFunction(new DateTimeFunction());
+            RegisterFunction(new DoubleFunction());
+            RegisterFunction(new IntegerFunction());
+            RegisterFunction(new LogicalOperatorFunction());
+            RegisterFunction(new StringFunction());
         }
     }
 }

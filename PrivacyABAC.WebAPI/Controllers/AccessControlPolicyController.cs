@@ -10,11 +10,13 @@ using PrivacyABAC.WebAPI.Utilities;
 using PrivacyABAC.DbInterfaces.Model;
 using PrivacyABAC.Core.Service;
 using PrivacyABAC.DbInterfaces.Repository;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace PrivacyABAC.WebAPI.Controllers
 {
+    [EnableCors("CorsPolicy")]
     public class AccessControlPolicyController : Controller
     {
         private readonly ConditionalExpressionService _conditionalExpressionService;

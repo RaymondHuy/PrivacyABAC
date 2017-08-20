@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0-preview-20170427-09" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.17" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.17" />
@@ -14,7 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PrivacyABAC.Core\PrivacyABAC.Core.csproj" />
+    <ProjectReference Include="..\PrivacyABAC.DbInterfaces\PrivacyABAC.DbInterfaces.csproj" />
     <ProjectReference Include="..\PrivacyABAC.Functions\PrivacyABAC.Functions.csproj" />
+    <ProjectReference Include="..\PrivacyABAC.MongoDb\PrivacyABAC.MongoDb.csproj" />
   </ItemGroup>
 
   <ItemGroup>

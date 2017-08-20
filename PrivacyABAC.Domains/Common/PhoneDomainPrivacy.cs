@@ -8,7 +8,7 @@ namespace PrivacyABAC.Domains.Common
     public class PhoneDomainPrivacy : IPluginDomain
     {
 
-        public string GetName() => "Phone";
+        public string GetName() => "PhoneDomain";
 
         public string[] GetRegisteredFunctions() => new string[] { "ShowFirstThreeNumber", "ShowLastThreeNumber" };
 
