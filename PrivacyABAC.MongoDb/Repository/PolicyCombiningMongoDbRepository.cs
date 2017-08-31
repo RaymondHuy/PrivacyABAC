@@ -17,6 +17,9 @@ namespace PrivacyABAC.MongoDb.Repository
         
         public string GetRuleCombining(ICollection<AccessControlPolicy> policies)
         {
+            if (policies.Count == 0)
+                return AlgorithmCombining.PERMIT_OVERRIDES;
+
             var builder = Builders<AccessControlPolicyCombining>.Filter;
             var id = policies.ElementAt(0).Id;
             var filter = builder.AnyEq("policies_id", id);

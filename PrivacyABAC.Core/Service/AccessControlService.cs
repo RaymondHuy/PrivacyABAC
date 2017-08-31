@@ -79,9 +79,6 @@ namespace PrivacyABAC.Core.Service
 
             ICollection<AccessControlPolicy> collectionPolicies = _accessControlPolicyRepository.Get(resource.Name, action, false);
 
-            if (collectionPolicies.Count == 0)
-                return AccessControlEffect.NotApplicable;
-
             string policyCombining = _policyCombiningRepository.GetRuleCombining(collectionPolicies);
 
             var targetPolicies = new List<AccessControlPolicy>();

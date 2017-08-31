@@ -21,14 +21,14 @@ namespace PrivacyABAC.Functions.Fundamental
             };
         }
 
-        public string ExecuteFunction(string functionName, string[] parameters)
+        public string ExecuteFunction(string functionName, object[] parameters)
         {
             if (functionName.Equals("Equal", StringComparison.OrdinalIgnoreCase))
-                return Equal(parameters[0], parameters[1]).ToString();
+                return Equal(parameters[0].ToString(), parameters[1].ToString()).ToString();
             else if (functionName.Equals("GreaterThan", StringComparison.OrdinalIgnoreCase))
-                return GreaterThan(parameters[0], parameters[1]).ToString();
+                return GreaterThan(parameters[0].ToString(), parameters[1].ToString()).ToString();
             else if (functionName.Equals("LessThan", StringComparison.OrdinalIgnoreCase))
-                return LessThan(parameters[0], parameters[1]).ToString();
+                return LessThan(parameters[0].ToString(), parameters[1].ToString()).ToString();
 
             throw new FunctionNotFoundException(string.Format("Can not find {0}", functionName));
         }

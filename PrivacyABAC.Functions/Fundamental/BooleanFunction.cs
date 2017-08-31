@@ -30,10 +30,10 @@ namespace PrivacyABAC.Functions.Fundamental
             else throw new InvalidFormatException("Can not execute Equal function between two parameters : " + s1 + " " + s2);
         }
 
-        public string ExecuteFunction(string functionName, string[] parameters)
+        public string ExecuteFunction(string functionName, object[] parameters)
         {
             if (functionName.Equals("Equal", StringComparison.OrdinalIgnoreCase))
-                return Equal(parameters[0], parameters[1]).ToString();
+                return Equal(parameters[0].ToString(), parameters[1].ToString()).ToString();
 
             throw new FunctionNotFoundException(string.Format("Can not find {0}", functionName));
         }

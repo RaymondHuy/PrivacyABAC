@@ -60,7 +60,7 @@ namespace PrivacyABAC.MongoDb
             BsonClassMap.RegisterClassMap<FieldRule>(p => {
                 p.MapMember(c => c.FieldEffects).SetElementName("field_effects");
                 p.MapMember(c => c.Condition).SetElementName("condition");
-                p.MapMember(c => c.Identifer).SetElementName("identifer");
+                p.MapMember(c => c.Identifer).SetElementName("identifier");
                 p.SetIgnoreExtraElements(true);
             });
 

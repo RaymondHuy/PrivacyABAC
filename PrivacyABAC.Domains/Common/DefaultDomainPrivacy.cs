@@ -18,6 +18,8 @@ namespace PrivacyABAC.Domains.Common
                 return Show(parameters[0]);
             else if (functionName.Equals("Hide", StringComparison.OrdinalIgnoreCase))
                 return Hide(parameters[0]);
+            else if (string.Equals(functionName, "SubHide200"))
+                return SubHide200(parameters[0].ToString());
 
             throw new FunctionNotFoundException(string.Format("Can not find {0}", functionName));
         }
@@ -30,6 +32,13 @@ namespace PrivacyABAC.Domains.Common
         public string Hide(string s)
         {
             return "";
+        }
+
+        public string SubHide200(string s)
+        {
+            if (s.Length > 200)
+                return s.Substring(0, 199);
+            else return s;
         }
     }
 }

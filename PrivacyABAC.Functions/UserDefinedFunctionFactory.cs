@@ -34,7 +34,7 @@ namespace PrivacyABAC.Functions
             _sortedListPluginFunction.Add(function.GetClassName(), function);
         }
 
-        public string ExecuteFunction(string name, params string[] parameters)
+        public string ExecuteFunction(string name, params object[] parameters)
         {
             var arr = name.Split('.');
             string className = String.Empty;

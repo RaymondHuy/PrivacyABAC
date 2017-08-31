@@ -29,6 +29,7 @@ namespace PrivacyABAC.Domains.Common
             RegisterPlugin(new SSNDomainPrivacy());
             RegisterPlugin(new PhoneDomainPrivacy());
             RegisterPlugin(new AddressDomainPrivacy());
+            RegisterPlugin(new EmailDomain());
         }
         public void RegisterPlugin(IPluginDomain plugin)
         {

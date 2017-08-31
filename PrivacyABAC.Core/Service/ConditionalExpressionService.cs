@@ -22,7 +22,10 @@ namespace PrivacyABAC.Core.Service
 
         public bool Evaluate(Function function, JObject subject, JObject resource, JObject environment)
         {
-            var parameters = new List<string>();
+            if (function == null)
+                return true;
+
+            var parameters = new List<object>();
 
             foreach (var param in function.Parameters)
             {
@@ -54,9 +57,9 @@ namespace PrivacyABAC.Core.Service
                                 value = resource.SelectToken(param.Value);
                                 break;
                         }
-                        if (value == null)
-                            throw new ConditionalExpressionException(string.Format(ErrorMessage.MissingField, param.Value, param.ResourceID));
-                        else parameters.Add(value.ToString());
+                        //if (value == null)
+                        //    throw new ConditionalExpressionException(string.Format(ErrorMessage.MissingField, param.Value, param.ResourceID));
+                        parameters.Add(value);
                     }
                 }
             }

@@ -7,14 +7,16 @@ namespace PrivacyABAC.Functions.Fundamental
 {
     public class StringFunction : IPluginFunction
     {
-        public string ExecuteFunction(string functionName, params string[] parameters)
+        public string ExecuteFunction(string functionName, params object[] parameters)
         {
             object result = null;
 
             if (string.Equals(functionName, "Equal"))
-                result = Equal(parameters[0], parameters[1]);
+                result = Equal(parameters[0].ToString(), parameters[1].ToString());
             else if (string.Equals(functionName, "EqualInsenitive"))
-                result = EqualInsenitive(parameters[0], parameters[1]);
+                result = EqualInsenitive(parameters[0].ToString(), parameters[1].ToString());
+            else if (string.Equals(functionName, "IsNotNull"))
+                result = IsNotNull(parameters[0]);
 
             if (result == null) throw new FunctionNotFoundException(string.Format(ErrorFunctionMessage.NotFound, functionName + " function"));
 
@@ -28,7 +30,8 @@ namespace PrivacyABAC.Functions.Fundamental
             return new FunctionInfo[]
             {
                 new FunctionInfo("Equal", 2),
-                new FunctionInfo("EqualInsenitive", 2)
+                new FunctionInfo("EqualInsenitive", 2),
+                new FunctionInfo("IsNotNull", 1)
             };
         }
 
@@ -42,6 +45,11 @@ namespace PrivacyABAC.Functions.Fundamental
         {
             if (string.Equals(a, b)) return true;
             else return false;
+        }
+
+        public bool IsNotNull(object s)
+        {
+            return s != null;
         }
     }
 }

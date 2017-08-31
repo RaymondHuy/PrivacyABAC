@@ -7,16 +7,16 @@ namespace PrivacyABAC.Functions.Fundamental
 {
     public class DateTimeFunction : IPluginFunction
     {
-        public string ExecuteFunction(string functionName, params string[] parameters)
+        public string ExecuteFunction(string functionName, params object[] parameters)
         {
             object result = null;
 
             if (string.Equals(functionName, "Equal"))
-                result = Equal(parameters[0], parameters[1]);
+                result = Equal(parameters[0].ToString(), parameters[1].ToString());
             else if (string.Equals(functionName, "GreaterThan"))
-                result = GreaterThan(parameters[0], parameters[1]);
+                result = GreaterThan(parameters[0].ToString(), parameters[1].ToString());
             else if (string.Equals(functionName, "LessThan"))
-                result = LessThan(parameters[0], parameters[1]);
+                result = LessThan(parameters[0].ToString(), parameters[1].ToString());
 
             if (result == null) throw new FunctionNotFoundException(string.Format(ErrorFunctionMessage.NotFound, functionName + " function"));
 

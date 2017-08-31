@@ -8,6 +8,8 @@ using PrivacyABAC.MongoDb.Repository;
 using PrivacyABAC.Core.Service;
 using Microsoft.Extensions.Logging;
 using PrivacyABAC.MongoDb;
+using PrivacyABAC.Functions;
+using PrivacyABAC.Domains.Common;
 
 namespace PrivacyABAC.UnitTest
 {
@@ -44,15 +46,21 @@ namespace PrivacyABAC.UnitTest
             builder.Register(c => new MongoDbContextProvider()
             {
                 ConnectionString = "mongodb://localhost:27017",
-                PolicyDatabaseName = "DemoPolicyDatabase",
-                UserCollectionName = "MyDemoDb",
-                UserDatabaseName = "User"
+                PolicyDatabaseName = "Policy",
+                UserCollectionName = "UserDB",
+                UserDatabaseName = "UserDB"
             }).SingleInstance();
 
             builder.RegisterType<AccessControlService>().SingleInstance();
             builder.RegisterType<PrivacyService>().SingleInstance();
             builder.RegisterType<ConditionalExpressionService>().SingleInstance();
             builder.RegisterType<SecurityService>().SingleInstance();
+
+            var pluginFunctionFactory = UserDefinedFunctionFactory.GetInstance();
+            pluginFunctionFactory.RegisterDefaultFunctions();
+
+            var domainFactory = PrivacyDomainPluginFactory.GetInstance();
+            domainFactory.RegisterDefaultPlugin();
 
             var container = builder.Build();
             return container;

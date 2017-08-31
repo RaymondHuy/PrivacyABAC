@@ -54,7 +54,6 @@ namespace PrivacyABAC.MongoDb.Repository
                 : dbContext.GetCollection<BsonDocument>(collectionName)
                           .Find((FilterDefinition<BsonDocument>)filter)
                           .ToList();
-
             var jsonSetting = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
             return Newtonsoft.Json.JsonConvert.DeserializeObject<JObject[]>(data.ToJson(jsonSetting));
         }
